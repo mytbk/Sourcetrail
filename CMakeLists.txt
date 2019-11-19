@@ -82,6 +82,11 @@ endif()
 	#add_definitions(-fno-omit-frame-pointer)
 #endif ()
 
+if (UNIX AND NOT APPLE)
+	find_package(Threads REQUIRED)
+	set(THREADS_PREFER_PTHREAD_FLAG ON)
+	set(SYSTEM_LIBS rt dl ${CMAKE_THREAD_LIBS_INIT})
+endif()
 
 # Clang ------------------------------------------------------------------------
 
@@ -530,6 +535,7 @@ target_link_libraries(
 	$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
 	$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
 	${LIB_PROJECT_NAME}
+	${SYSTEM_LIBS}
 )
 
 if (APPLE)
@@ -611,6 +617,7 @@ target_link_libraries(
 	$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
 	$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:${LIB_PYTHON_PROJECT_NAME}>
 	${LIB_PROJECT_NAME}
+	${SYSTEM_LIBS}
 )
 
 set_property(
@@ -716,6 +723,7 @@ target_link_libraries(
 	$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:${LIB_JAVA_PROJECT_NAME}>
 	${LIB_PROJECT_NAME}
 	${LIB_GUI_PROJECT_NAME}
+	${SYSTEM_LIBS}
 )
 
 set_property(
